@@ -33,7 +33,7 @@ namespace zme
         public int y;
         public char sym;
 
-        public void Draw(x, y, sym)
+        public void Draw()
         {
             Console.SetCursorPosition(x, y);
             Console.Write(sym);
