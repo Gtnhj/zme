@@ -6,20 +6,38 @@ using System.Threading.Tasks;
 
 namespace zme
 {
+    class point
+    {
+        public int x;
+        public int y;
+        public char sym;
+
+        public point()
+        {
+        }
+
+        public point(int _x, int _y, char _sym)
+        {
+            x = _x;
+            y = _y;
+            sym = _sym;
+        }
+
+        public void Draw()
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write(sym);
+        }
+
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            point p1 = new point();
-            p1.x = 1;
-            p1.y = 3;
-            p1.sym = '*';
+            point p1 = new point(1, 3, '*');           
             p1.Draw();
         
-            point p2 = new point();
-            p2.x = 4;
-            p2.y = 5;
-            p2.sym = '#';
+            point p2 = new point(4, 5, '#');
             p2.Draw();
 
             Console.ReadLine();
@@ -27,17 +45,5 @@ namespace zme
                 
     }
 
-    class point
-    {
-        public int x;
-        public int y;
-        public char sym;
-
-        public void Draw(x, y, sym)
-        {
-            Console.SetCursorPosition(x, y);
-            Console.Write(sym);
-        }
-
-    }
+   
 }
