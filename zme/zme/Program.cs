@@ -6,27 +6,42 @@ using System.Threading.Tasks;
 
 namespace zme
 {
-    class VLine
+    class figure
     {
-        List<point> pList = new List<point>();
+        protected List<point> pList;
 
-        public VLine(int x, int yLow, int yHight, char sym)
+        public void Drow()
         {
-            //pList = new List<point>();
-            for (int y = yLow; y <= yHight; y++)
+            foreach (point p in pList)
+            {
+                p.Draw();
+            }
+        }
+    }
+    class Hline : figure
+    {
+        public Hline(int xLeft, int xRight, int y, char sym)
+        {
+            pList = new List<point>();
+            for (int x = xLeft; x <= xRight; x++)
             {
                 point p = new point(x, y, sym);
                 pList.Add(p);
             }
         }
+    }
 
-        public void Drow()
+    class Vline : figure
+{
+        public Vline(int x, int yLow, int yHight, char sym)
         {
-            foreach(point p in pList)
+            pList = new List<point>();
+            for (int y = yLow; y <= yHight; y++)
             {
-                p.Draw();
+                point p = new point(x, y, sym);
+                pList.Add(p);
             }
-        }
+        }       
     }
 
     class point
@@ -57,15 +72,19 @@ namespace zme
     {
         static void Main(string[] args)
         {
-            point p1 = new point(1, 3, '*');           
-            p1.Draw();
-        
-            point p2 = new point(4, 5, '#');
-            p2.Draw();
+            Console.SetBufferSize(80, 25);
 
-            VLine line = new VLine(10, 3, 10, '*');
-            line.Drow();
-                        
+            //отрисовка рамки            
+            Vline leftline  = new Vline(0, 0, 23,  '+');
+            Vline rightline = new Vline(78, 0, 23, '+');
+            Hline upline    = new Hline(0, 78, 0,  '+');
+            Hline downline  = new Hline(0, 78, 23, '+');
+
+            leftline.Drow();
+            rightline.Drow();
+            upline.Drow();
+            downline.Drow();
+
             Console.ReadLine();
         }                
     }
