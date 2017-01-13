@@ -6,6 +6,29 @@ using System.Threading.Tasks;
 
 namespace zme
 {
+    class VLine
+    {
+        List<point> pList = new List<point>();
+
+        public VLine(int x, int yLow, int yHight, char sym)
+        {
+            //pList = new List<point>();
+            for (int y = yLow; y <= yHight; y++)
+            {
+                point p = new point(x, y, sym);
+                pList.Add(p);
+            }
+        }
+
+        public void Drow()
+        {
+            foreach(point p in pList)
+            {
+                p.Draw();
+            }
+        }
+    }
+
     class point
     {
         public int x;
@@ -40,12 +63,10 @@ namespace zme
             point p2 = new point(4, 5, '#');
             p2.Draw();
 
-            List<point> pList = new List<point>();
-            pList.Add(p1);
-            pList.Add(p2);
-            
+            VLine line = new VLine(10, 3, 10, '*');
+            line.Drow();
+                        
             Console.ReadLine();
-        }
-                
+        }                
     }
 }
