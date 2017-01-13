@@ -40,10 +40,12 @@ namespace zme
             point p2 = new point(4, 5, '#');
             p2.Draw();
 
+            List<point> pList = new List<point>();
+            pList.Add(p1);
+            pList.Add(p2);
+            
             Console.ReadLine();
         }
                 
     }
-
-   
 }
