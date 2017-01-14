@@ -72,7 +72,19 @@ namespace zme
                 direction = Direction.UP;
             if (kl == ConsoleKey.DownArrow)
                 direction = Direction.DOWN;
-        }         
+        }
+
+        internal bool eat(point food)
+        {
+            point head = GetNextPoint();
+            if (head.IsHit(food))
+            {
+                food.sym = head.sym;
+                pList.Add(food);
+                return true;
+            }
+            else return false;
+        }
     }
 
 
@@ -100,6 +112,31 @@ namespace zme
                 pList.Add(p);
             }
         }
+    }
+
+    class FoodCreator
+    {
+        int mapWidght;
+        int mapHeight;
+        char sym;
+
+        Random random = new Random();
+
+        public FoodCreator(int mapWidght, int mapHeight, char sym)
+        {
+            this.mapHeight = mapHeight;
+            this.mapWidght = mapWidght;
+            this.sym = sym;
+        }
+
+        public point CreateFood()
+        {
+            int x = random.Next(2, mapWidght - 2);
+            int y = random.Next(2, mapHeight - 2);
+            return new point(x, y, sym);
+              
+        }
+
     }
 
     class point
@@ -146,6 +183,11 @@ namespace zme
             Draw();
         }
 
+        public bool IsHit(point p)
+        {
+            return p.x == this.x && return p.x == this.x;
+        }
+
     }
 
     class Program
@@ -154,7 +196,6 @@ namespace zme
         {
             Console.SetBufferSize(80, 25);
 
-            //отрисовка рамки            
             Vline leftline = new Vline(0, 0, 23, '+');
             Vline rightline = new Vline(78, 0, 23, '+');
             Hline upline = new Hline(0, 78, 0, '+');
@@ -164,14 +205,31 @@ namespace zme
             rightline.Drow();
             upline.Drow();
             downline.Drow();
-
-            //отрисовка точек
+            
             point p = new point(4, 5, '*');
             snake Snake = new snake(p, 4, Direction.RIGHT);
             Snake.Drow();
 
+            FoodCreator foodCr = new FoodCreator(80, 25, '#');
+            point food = foodCr.CreateFood();
+            food.Draw();
+
             while(true)
             {
+                if(snake.eat(food))
+                {
+                    food = foodCr.CreateFood;
+                    food.Draw;
+                }
+
+                //*/
+                else
+                {
+                    Snake.Move();
+                }
+                Thread.Sleep(150);
+                //*/
+
                 if(Console.KeyAvailable)
                 {
                     ConsoleKeyInfo kl = Console.ReadKey();
@@ -181,11 +239,6 @@ namespace zme
                 Thread.Sleep(150);
                 Snake.Move();
             }
-            
-            
-            /*
-            Console.ReadLine();
-            //*/
         }
     }
 }
