@@ -61,6 +61,18 @@ namespace zme
             nextPoint.move(1, direction);
             return nextPoint;
         }
+
+        public void HandlKey(ConsoleKey kl)
+        {
+            if (kl == ConsoleKey.LeftArrow)
+                direction = Direction.LEFT;
+            if (kl == ConsoleKey.RightArrow)
+                direction = Direction.RIGHT;
+            if (kl == ConsoleKey.UpArrow)
+                direction = Direction.UP;
+            if (kl == ConsoleKey.DownArrow)
+                direction = Direction.DOWN;
+        }         
     }
 
 
@@ -113,25 +125,13 @@ namespace zme
         public void move( int offset, Direction direction)
         {
             if(direction == Direction.RIGHT)
-            {
-                x = x + offset;
-            }
-            else
+                x = x + offset;            
             if (direction == Direction.LEFT)
-            {
                 x = x - offset;
-            }
-            else
             if (direction == Direction.UP)
-            {
-                y = y + offset;
-            }
-            else
-            if (direction == Direction.DOWN)
-            {
                 y = y - offset;
-            }
-        
+            if (direction == Direction.DOWN)
+                y = y + offset;        
         }    
 
         public void Draw()
@@ -147,6 +147,7 @@ namespace zme
         }
 
     }
+
     class Program
     {
         static void Main(string[] args)
@@ -168,20 +169,23 @@ namespace zme
             point p = new point(4, 5, '*');
             snake Snake = new snake(p, 4, Direction.RIGHT);
             Snake.Drow();
-            Snake.Move();
 
-            //*
-            Thread.Sleep(300);
-            Snake.Move();
-            Thread.Sleep(300);
-            Snake.Move();
-            Thread.Sleep(300);
-            Snake.Move();
-            Thread.Sleep(300);
-            Snake.Move();
-            //*/
+            while(true)
+            {
+                if(Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo kl = Console.ReadKey();
+                    Snake.HandlKey(kl.Key);                 
+                }
 
+                Thread.Sleep(150);
+                Snake.Move();
+            }
+            
+            
+            /*
             Console.ReadLine();
+            //*/
         }
     }
 }
