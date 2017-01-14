@@ -87,7 +87,6 @@ namespace zme
         }
     }
 
-
     class Hline : figure
     {
         public Hline(int xLeft, int xRight, int y, char sym)
