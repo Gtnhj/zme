@@ -49,11 +49,7 @@ namespace zme
         public int x;
         public int y;
         public char sym;
-
-        public point()
-        {
-        }
-
+        
         public point(int _x, int _y, char _sym)
         {
             x = _x;
