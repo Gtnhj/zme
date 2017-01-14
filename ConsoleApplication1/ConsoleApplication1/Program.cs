@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace zme
 {
@@ -29,8 +29,11 @@ namespace zme
 
     class snake : figure
     {
-        public snake(point tail, int lenght, Direction direction)
+        Direction direction;
+
+        public snake(point tail, int lenght, Direction _direction)
         {
+            direction = _direction;
             for(int i = 0; i < lenght; i++)
             {
                 point p = new point(tail);
@@ -38,6 +41,25 @@ namespace zme
                 pList.Add(p);
             }
                 
+        }
+
+        internal void Move()
+        {
+            point tail = pList.First();
+            pList.Remove(tail);
+            point head = GetNextPoint();
+            pList.Add(head);
+
+            tail.clear();
+            head.Draw();
+        }
+
+        public point GetNextPoint()
+        {
+            point head = pList.Last();
+            point nextPoint = new point(head);
+            nextPoint.move(1, direction);
+            return nextPoint;
         }
     }
 
@@ -118,6 +140,12 @@ namespace zme
             Console.Write(sym);
         }
 
+        public void clear()
+        {
+            sym = ' ';
+            Draw();
+        }
+
     }
     class Program
     {
@@ -140,6 +168,18 @@ namespace zme
             point p = new point(4, 5, '*');
             snake Snake = new snake(p, 4, Direction.RIGHT);
             Snake.Drow();
+            Snake.Move();
+
+            //*
+            Thread.Sleep(300);
+            Snake.Move();
+            Thread.Sleep(300);
+            Snake.Move();
+            Thread.Sleep(300);
+            Snake.Move();
+            Thread.Sleep(300);
+            Snake.Move();
+            //*/
 
             Console.ReadLine();
         }
