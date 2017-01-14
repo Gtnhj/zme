@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace zme
 {
+    enum Direction
+    {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+
     class figure
     {
         protected List<point> pList = new List<point>();
@@ -18,6 +26,22 @@ namespace zme
             }
         }
     }
+
+    class snake : figure
+    {
+        public snake(point tail, int lenght, Direction direction)
+        {
+            for(int i = 0; i < lenght; i++)
+            {
+                point p = new point(tail);
+                p.move(i, direction);
+                pList.Add(p);
+            }
+                
+        }
+    }
+
+
     class Hline : figure
     {
         public Hline(int xLeft, int xRight, int y, char sym)
@@ -57,6 +81,37 @@ namespace zme
             sym = _sym;
         }
 
+        public point(point p)
+        {
+            x = p.x;
+            y = p.y;
+            sym = p.sym;
+        }
+
+        public void move( int offset, Direction direction)
+        {
+            if(direction == Direction.RIGHT)
+            {
+                x = x + offset;
+            }
+            else
+            if (direction == Direction.LEFT)
+            {
+                x = x - offset;
+            }
+            else
+            if (direction == Direction.UP)
+            {
+                y = y + offset;
+            }
+            else
+            if (direction == Direction.DOWN)
+            {
+                y = y - offset;
+            }
+        
+        }    
+
         public void Draw()
         {
             Console.SetCursorPosition(x, y);
@@ -80,6 +135,11 @@ namespace zme
             rightline.Drow();
             upline.Drow();
             downline.Drow();
+
+            //отрисовка точек
+            point p = new point(4, 5, '*');
+            snake Snake = new snake(p, 4, Direction.RIGHT);
+            Snake.Drow();
 
             Console.ReadLine();
         }
