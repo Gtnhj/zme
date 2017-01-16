@@ -25,6 +25,26 @@ namespace zme
                 p.Draw();
             }
         }
+
+        internal bool IsHit(figure figure)
+        {
+            foreach(var p in pList)
+            {
+                if (figure.IsHit(p))
+                    return true;
+            }
+            return false;
+        }
+
+        private bool IsHit(point point)
+        {
+            foreach (var p in pList)
+            {
+                if (point.IsHit(p))
+                    return true;
+            }
+            return false;
+        }
     }
 
     class snake : figure
@@ -60,6 +80,17 @@ namespace zme
             point nextPoint = new point(head);
             nextPoint.move(1, direction);
             return nextPoint;
+        }
+
+        internal bool IsHitTail()
+        {
+            var head = pList.Last();
+            for(int i = 0; i < pList.Count - 2; i++)
+            {
+                if (head.IsHit(pList[i]))
+                    return true;
+            }
+            return false;
         }
 
         public void HandlKey(ConsoleKey kl)
@@ -101,15 +132,9 @@ namespace zme
 
         public override void Drow()
         {
-            Console.ForegroundColor = ConsoleColor.DarkCyan;
-
-            /*/
-            foreach (point p in pList)
-            {
-                p.Draw;
-            }
-            //*/
+            Console.ForegroundColor = ConsoleColor.Red;
             base.Drow();
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 
@@ -117,12 +142,18 @@ namespace zme
     {
         public Vline(int x, int yLow, int yHight, char sym)
         {
-            //pList = new List<point>();
             for (int y = yLow; y <= yHight; y++)
             {
                 point p = new point(x, y, sym);
                 pList.Add(p);
             }
+        }
+
+        public override void Drow()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            base.Drow();
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 
@@ -145,10 +176,8 @@ namespace zme
         {
             int x = random.Next(2, mapWidght - 2);
             int y = random.Next(2, mapHeight - 2);
-            return new point(x, y, sym);
-              
+            return new point(x, y, sym);              
         }
-
     }
 
     class point
@@ -199,25 +228,56 @@ namespace zme
         {
             return p.x == this.x && p.y == this.y;
         }
+    }
 
+    class walls
+    {
+        List<figure> wallist = new List<figure>();
+
+        public walls(int mapWidth, int mapHeight)
+        {
+            Vline leftline = new Vline(0, 0, 23, '+');
+            Vline rightline = new Vline(78, 0, 23, '+');
+            Hline upline = new Hline(0, 78, 0, '+');
+            Hline downline = new Hline(0, 78, 23, '+');
+
+            wallist.Add(leftline);
+            wallist.Add(rightline);
+            wallist.Add(upline);
+            wallist.Add(downline);
+
+        }
+
+        internal bool IsHit(figure figuree)
+        {
+            foreach(var wall in wallist)
+            {
+                if(wall.IsHit(figuree))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void draw()
+        {
+            foreach(var wall in wallist)
+            {
+                wall.Drow();
+            }
+        }
     }
 
     class Program
     {
         static void Main(string[] args)
         {
-            /*/
+            //*/
             Console.SetBufferSize(80, 25);
 
-            Vline leftline = new Vline(0, 0, 23, '+');
-            Vline rightline = new Vline(78, 0, 23, '+');
-            Hline upline = new Hline(0, 78, 0, '+');
-            Hline downline = new Hline(0, 78, 23, '+');
-
-            leftline.Drow();
-            rightline.Drow();
-            upline.Drow();
-            downline.Drow();
+            walls walls = new walls(80, 25);
+            walls.draw();
             
             point p = new point(4, 5, '*');
             snake Snake = new snake(p, 4, Direction.RIGHT);
@@ -229,54 +289,30 @@ namespace zme
 
             while(true)
             {
-                if(snake.eat(food))
+                if(walls.IsHit(Snake) || Snake.IsHitTail())
                 {
-                    food = foodCr.CreateFood;
-                    food.Draw;
+                    break;
+                }
+                if(Snake.eat(food))
+                {
+                    food = foodCr.CreateFood();
+                    food.Draw();
                 }
                                 
                 else
                 {
                     Snake.Move();
                 }
-                Thread.Sleep(150);                
+                Thread.Sleep(130);                
 
                 if(Console.KeyAvailable)
                 {
                     ConsoleKeyInfo kl = Console.ReadKey();
                     Snake.HandlKey(kl.Key);                 
                 }
-
-                Thread.Sleep(150);
-                Snake.Move();
-            }
-            
-            //*/           
-
-            point p = new point(4, 10, '*');
-            figure fsnake = new snake(p, 4, Direction.RIGHT);
-            Draw(fsnake);
-            //*/
-            snake ssnake = (snake)fsnake;
-            //*/
-
-            Hline hl = new Hline(3, 10, 5, '&');
-            Vline vl = new Vline(2, 2, 10, '%');
-            //Draw(vl);
-
-            List<figure> figures = new List<figure>();
-            figures.Add(fsnake);
-            figures.Add(vl);
-            figures.Add(hl);
-
-            
-
-            foreach(var f in figures)
-            {
-                f.Drow();
-                //Console.ReadLine();
             }
 
+            Console.WriteLine("THE END");
             Console.ReadLine();
         }
 
@@ -285,6 +321,5 @@ namespace zme
             Figure.Drow();
         }       
         
-        //*/
     }
 }
