@@ -18,7 +18,7 @@ namespace zme
     {
         protected List<point> pList = new List<point>();
 
-        public void Drow()
+        public virtual void Drow()
         {
             foreach (point p in pList)
             {
@@ -97,6 +97,19 @@ namespace zme
                 point p = new point(x, y, sym);
                 pList.Add(p);
             }
+        }
+
+        public override void Drow()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+            /*/
+            foreach (point p in pList)
+            {
+                p.Draw;
+            }
+            //*/
+            base.Drow();
         }
     }
 
@@ -237,14 +250,12 @@ namespace zme
                 Thread.Sleep(150);
                 Snake.Move();
             }
-            //*/
-
             
-           
+            //*/           
 
             point p = new point(4, 10, '*');
             figure fsnake = new snake(p, 4, Direction.RIGHT);
-            //Draw(fsnake);
+            Draw(fsnake);
             //*/
             snake ssnake = (snake)fsnake;
             //*/
@@ -263,18 +274,17 @@ namespace zme
             foreach(var f in figures)
             {
                 f.Drow();
-                Console.ReadLine();
+                //Console.ReadLine();
             }
 
+            Console.ReadLine();
         }
 
         static void Draw(figure Figure)
         {
             Figure.Drow();
-        }
-
-        /*/
-        Console.ReadLine();        
+        }       
+        
         //*/
     }
 }
