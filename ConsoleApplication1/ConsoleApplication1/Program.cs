@@ -184,7 +184,8 @@ namespace zme
 
         public bool IsHit(point p)
         {
-            return p.x == this.x && return p.x == this.x;
+            return p.x == this.x;
+            return p.x == this.x;
         }
 
     }
@@ -193,6 +194,7 @@ namespace zme
     {
         static void Main(string[] args)
         {
+            /*/
             Console.SetBufferSize(80, 25);
 
             Vline leftline = new Vline(0, 0, 23, '+');
@@ -220,14 +222,12 @@ namespace zme
                     food = foodCr.CreateFood;
                     food.Draw;
                 }
-
-                //*/
+                                
                 else
                 {
                     Snake.Move();
                 }
-                Thread.Sleep(150);
-                //*/
+                Thread.Sleep(150);                
 
                 if(Console.KeyAvailable)
                 {
@@ -238,6 +238,37 @@ namespace zme
                 Thread.Sleep(150);
                 Snake.Move();
             }
+            //*/
+
+            Vline vl = new Vline(0, 10, 5, '%');
+            Draw(vl);
+
+            point p = new point(4, 5, '*');
+            figure fsnake = new snake(p, 4, Direction.RIGHT);
+            Draw(fsnake);
+            /*/
+            snake ssnake = (snake)fsnake;
+            //*/
+
+            Hline hl = new Hline(0, 5, 6, '&');
+
+            List<figure> figures = new List<figure>();
+            figures.Add(fsnake);
+            figures.Add(vl);
+            figures.Add(hl);
+
+            
+
+            foreach(var f in figures)
+            {
+                f.Drow();
+            }
+
+        }
+
+        static void Draw(figure Figure)
+        {
+            Figure.Drow();
         }
     }
 }
