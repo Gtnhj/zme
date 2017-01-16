@@ -184,8 +184,7 @@ namespace zme
 
         public bool IsHit(point p)
         {
-            return p.x == this.x;
-            return p.x == this.x;
+            return p.x == this.x && p.y == this.y;
         }
 
     }
@@ -240,17 +239,19 @@ namespace zme
             }
             //*/
 
-            Vline vl = new Vline(0, 10, 5, '%');
-            Draw(vl);
+            
+           
 
-            point p = new point(4, 5, '*');
+            point p = new point(4, 10, '*');
             figure fsnake = new snake(p, 4, Direction.RIGHT);
-            Draw(fsnake);
-            /*/
+            //Draw(fsnake);
+            //*/
             snake ssnake = (snake)fsnake;
             //*/
 
-            Hline hl = new Hline(0, 5, 6, '&');
+            Hline hl = new Hline(3, 10, 5, '&');
+            Vline vl = new Vline(2, 2, 10, '%');
+            //Draw(vl);
 
             List<figure> figures = new List<figure>();
             figures.Add(fsnake);
@@ -262,6 +263,7 @@ namespace zme
             foreach(var f in figures)
             {
                 f.Drow();
+                Console.ReadLine();
             }
 
         }
@@ -270,5 +272,9 @@ namespace zme
         {
             Figure.Drow();
         }
+
+        /*/
+        Console.ReadLine();        
+        //*/
     }
 }
